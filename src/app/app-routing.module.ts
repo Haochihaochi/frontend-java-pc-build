@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ManageComponent } from './manage/manage.component';
-import { HomeComponent } from './home/home.component'; // We’ll create this next
+import { HomeComponent } from './home/home.component'; 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },           // Show welcome message on root

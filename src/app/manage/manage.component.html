@@ -23,42 +23,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="border-t border-gray-700">
-            <td class="px-4 py-2">1</td>
-            <td class="px-4 py-2 truncate">Intel Core i9-14900K Processor</td>
-            <td class="px-4 py-2">$300</td>
-            <td class="px-4 py-2">
-                <button class="bg-green-600 hover:bg-green-700 text-white p-2 rounded">
-                <!-- Add Icon (Plus Sign) -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                </button>
-            </td>
+            <tr *ngIf="parts.length === 0">
+                <td colspan="4" class="px-4 py-6 text-center text-gray-400">
+                No parts available to display.
+                </td>
             </tr>
-            <tr class="border-t border-gray-700">
-            <td class="px-4 py-2">2</td>
-            <td class="px-4 py-2 truncate">Corsair Vengeance 16GB DDR5 RAM</td>
-            <td class="px-4 py-2">$120</td>
-            <td class="px-4 py-2">
-                <button class="bg-green-600 hover:bg-green-700 text-white p-2 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <tr *ngFor="let part of parts; let i = index" class="border-t border-gray-700">
+                <td class="px-4 py-2">{{ i + 1 }}</td>
+                <td class="px-4 py-2 truncate">{{ part.description }}</td>
+                <td class="px-4 py-2">{{ part.price | currency:'MYR' }}</td>
+                <td class="px-4 py-2">
+                <button class="bg-green-600 hover:bg-green-700 text-white p-2 rounded" (click)="addPart(part)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
+                    </svg>
                 </button>
-            </td>
-            </tr>
-            <tr class="border-t border-gray-700">
-            <td class="px-4 py-2">3</td>
-            <td class="px-4 py-2 truncate">Samsung 980 Pro 1TB NVMe SSD</td>
-            <td class="px-4 py-2">$150</td>
-            <td class="px-4 py-2">
-                <button class="bg-green-600 hover:bg-green-700 text-white p-2 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                </button>
-            </td>
+                </td>
             </tr>
         </tbody>
     </table>
