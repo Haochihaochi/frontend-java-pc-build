@@ -1,46 +1,25 @@
 <div class="p-6 bg-gray-900 min-h-screen text-white">
-  <!-- Top Panel Buttons -->
   <h1 class="text-2xl font-bold mb-4">Manage Page</h1>
+
+  <!-- Buttons -->
   <div class="flex flex-wrap gap-4 mb-6 justify-center">
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">CPU</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">MOTHERBOARD</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">RAM</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">SSD</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">GPU</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">PSU</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">CASING</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('processor')">CPU</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('motherboard')">MOTHERBOARD</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('ram')">RAM</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('ssd')">SSD</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('gpu')">GPU</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('psu')">PSU</button>
+    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('casing')">CASING</button>
   </div>
 
-  <!-- Table -->
-  <div class="overflow-x-auto">
-    <table class="min-w-full table-fixed bg-gray-800 rounded-lg overflow-hidden border-separate border-spacing-x-4">
-        <thead>
-            <tr class="bg-gray-800 text-white">
-                <th class="w-[2%] px-4 py-2 text-left">No</th>
-                <th class="w-[83%] px-4 py-2 text-left">Part</th>
-                <th class="w-[10%] px-4 py-2 text-left">Price</th>
-                <th class="w-[5%] px-4 py-2 text-left">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="parts.length === 0">
-                <td colspan="4" class="px-4 py-6 text-center text-gray-400">
-                No parts available to display.
-                </td>
-            </tr>
-            <tr *ngFor="let part of parts; let i = index" class="border-t border-gray-700">
-                <td class="px-4 py-2">{{ i + 1 }}</td>
-                <td class="px-4 py-2 truncate">{{ part.description }}</td>
-                <td class="px-4 py-2">{{ part.price | currency:'MYR' }}</td>
-                <td class="px-4 py-2">
-                <button class="bg-green-600 hover:bg-green-700 text-white p-2 rounded" (click)="addPart(part)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-  </div>
+  <!-- Display Selected Component -->
+  <app-processor *ngIf="selectedPart === 'processor'"></app-processor>
+  <!-- <app-motherboard *ngIf="selectedPart === 'motherboard'"></app-motherboard>
+  <app-cooler *ngIf="selectedPart === 'cooler'"></app-cooler>
+  <app-ram *ngIf="selectedPart === 'ram'"></app-ram>
+  <app-gpu *ngIf="selectedPart === 'gpu'"></app-gpu>
+  <app-psu *ngIf="selectedPart === 'psu'"></app-psu>
+  <app-casing *ngIf="selectedPart === 'casing'"></app-casing> -->
+  <!-- You can add other components here like below: -->
+  <!-- <app-ram *ngIf="selectedPart === 'ram'"></app-ram> -->
 </div>

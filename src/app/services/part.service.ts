@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PartService {
-  private apiUrl = 'http://localhost:8080'; // Spring Boot endpoint
+  private apiUrl = 'http://localhost:8080/api/processor'; // Spring Boot endpoint
 
   constructor(private http: HttpClient) {}
 

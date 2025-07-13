@@ -1,25 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { PartService } from '../services/part.service';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ProcessorComponent } from '../manage/processor/processor.component';
 
 @Component({
   selector: 'app-manage',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, ProcessorComponent],
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.css']
 })
 export class ManageComponent {
-  parts: any[] = [];
+  selectedPart: string = 'processor';
 
-  constructor(private partService: PartService) {}
-
-  ngOnInit(): void {
-    this.partService.getParts().subscribe({
-      next: data => this.parts = data,
-      error: err => console.error('Error fetching parts:', err)
-    });
-  }
-
-  addPart(part: any): void {
-    console.log('Add part clicked:', part);
+  setPart(part: string) {
+    this.selectedPart = part;
   }
 }
