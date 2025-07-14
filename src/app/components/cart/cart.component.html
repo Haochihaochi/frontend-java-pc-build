@@ -1,0 +1,24 @@
+<!-- Minimized Icon (Top Right) -->
+<div class="fixed top-4 right-4 z-50">
+  <button (click)="toggleCart()" class="relative bg-gray-700 text-white rounded-full p-3 hover:bg-gray-600">
+    🛒
+  </button>
+</div>
+
+<!-- Expanded Cart Overlay -->
+<div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center">
+  <div class="bg-gray-900 p-6 rounded-lg w-[90%] max-w-xl relative">
+    <h2 class="text-2xl mb-4 font-bold text-white">Your Cart</h2>
+    <button class="absolute top-4 right-4 text-white hover:text-gray-300" (click)="copyToClipboard()">📋</button>
+
+    <ul class="space-y-2 max-h-[300px] overflow-y-auto text-white">
+      <li *ngFor="let item of (cart$ | async)">
+        {{ item.description }} x{{ item.quantity }} — RM{{ item.price * item.quantity }}
+      </li>
+    </ul>
+
+    <div class="mt-4 flex justify-end">
+      <button (click)="toggleCart()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">Close</button>
+    </div>
+  </div>
+</div>

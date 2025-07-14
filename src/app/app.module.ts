@@ -3,6 +3,7 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CartComponent } from './components/cart/cart.component';
 import { ManageComponent } from './manage/manage.component';
 import { HomeComponent } from './home/home.component';
 import { ProcessorComponent } from './manage/processor/processor.component';
@@ -17,14 +18,6 @@ import { MotherboardComponent } from './manage/motherboard/motherboard.component
 @NgModule({
   declarations: [
     AppComponent,
-    
-    // RamComponent,
-    // StorageComponent,
-    // GpuComponent,
-    // PsuComponent,
-    // CoolerComponent,
-    // CasingComponent,
-    // MotherboardComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +25,15 @@ import { MotherboardComponent } from './manage/motherboard/motherboard.component
     HttpClientModule,
     ManageComponent,
     HomeComponent,
+    CartComponent,
     ProcessorComponent
+    // RamComponent,
+    // StorageComponent,
+    // GpuComponent,
+    // PsuComponent,
+    // CoolerComponent,
+    // CasingComponent,
+    // MotherboardComponent
   ],
   providers: [
     provideClientHydration(withEventReplay())

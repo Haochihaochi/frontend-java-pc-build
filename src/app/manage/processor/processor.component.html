@@ -1,12 +1,12 @@
 <!-- Processor Table -->
 <div class="overflow-x-auto">
-  <table class="min-w-full table-fixed bg-gray-800 rounded-lg overflow-hidden border-separate border-spacing-x-4">
+  <table class="min-w-full table-fixed bg-gray-800 rounded-lg overflow-hidden border-separate border-spacing-x-2">
     <thead>
       <tr class="bg-gray-800 text-white">
         <th class="w-[2%] px-4 py-2 text-left">No</th>
-        <th class="w-[83%] px-4 py-2 text-left">Part</th>
-        <th class="w-[10%] px-4 py-2 text-left">Price</th>
-        <th class="w-[5%] px-4 py-2 text-left">Action</th>
+        <th class="w-[73%] px-4 py-2 text-left">Part</th>
+        <th class="w-[15%] px-4 py-2 text-left">Price</th>
+        <th class="w-[2%] px-4 py-2 text-left">Quantity</th>
       </tr>
     </thead>
     <tbody>
@@ -15,16 +15,33 @@
           No processor parts available to display.
         </td>
       </tr>
-      <tr *ngFor="let part of parts; let i = index" class="border-t border-gray-700">
+      <tr *ngFor="let part of parts; let i = index" class="border-t border-gray-700 text-white">
         <td class="px-4 py-2">{{ i + 1 }}</td>
         <td class="px-4 py-2 truncate">{{ part.description }}</td>
-        <td class="px-4 py-2">{{ part.price | currency:'MYR' }}</td>
+        <td class="px-4 py-2">{{ part.price | currency:'RM' }}</td>
         <td class="px-4 py-2">
-          <button class="bg-green-600 hover:bg-green-700 text-white p-2 rounded" (click)="addPart(part)">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-          </button>
+          <div class="flex items-center justify-left gap-4">
+            <!-- Minus Button -->
+            <button
+              (click)="removePart(part)"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
+            >
+              -
+            </button>
+
+            <!-- Count Display -->
+            <span class="text-base font-semibold w-[30px] text-center">
+              {{ partCounts[part.id] || 0 }}
+            </span>
+
+            <!-- Plus Button -->
+            <button
+              (click)="addPart(part)"
+              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
+            >
+              +
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>

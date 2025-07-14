@@ -1,25 +1,85 @@
 <div class="p-6 bg-gray-900 min-h-screen text-white">
-  <h1 class="text-2xl font-bold mb-4">Manage Page</h1>
+  <h1 class="text-2xl font-bold mb-6 text-center">Manage Page</h1>
 
-  <!-- Buttons -->
-  <div class="flex flex-wrap gap-4 mb-6 justify-center">
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('processor')">CPU</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('motherboard')">MOTHERBOARD</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('ram')">RAM</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('ssd')">SSD</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('gpu')">GPU</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('psu')">PSU</button>
-    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded" (click)="setPart('casing')">CASING</button>
+  <!-- Redesigned Buttons -->
+  <div class="flex flex-wrap justify-center gap-3 mb-8">
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'processor' }"
+      (click)="setPart('processor')"
+    >
+      🧠 CPU
+    </button>
+
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'motherboard' }"
+      (click)="setPart('motherboard')"
+    >
+      🧩 MOTHERBOARD
+    </button>
+
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'ram' }"
+      (click)="setPart('ram')"
+    >
+      💾 RAM
+    </button>
+
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'ssd' }"
+      (click)="setPart('ssd')"
+    >
+      📦 SSD
+    </button>
+
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'gpu' }"
+      (click)="setPart('gpu')"
+    >
+      🎮 GPU
+    </button>
+
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'psu' }"
+      (click)="setPart('psu')"
+    >
+      ⚡ PSU
+    </button>
+
+    <button
+      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
+      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'casing' }"
+      (click)="setPart('casing')"
+    >
+      🖥️ CASING
+    </button>
   </div>
 
-  <!-- Display Selected Component -->
-  <app-processor *ngIf="selectedPart === 'processor'"></app-processor>
-  <!-- <app-motherboard *ngIf="selectedPart === 'motherboard'"></app-motherboard>
-  <app-cooler *ngIf="selectedPart === 'cooler'"></app-cooler>
-  <app-ram *ngIf="selectedPart === 'ram'"></app-ram>
-  <app-gpu *ngIf="selectedPart === 'gpu'"></app-gpu>
-  <app-psu *ngIf="selectedPart === 'psu'"></app-psu>
-  <app-casing *ngIf="selectedPart === 'casing'"></app-casing> -->
-  <!-- You can add other components here like below: -->
-  <!-- <app-ram *ngIf="selectedPart === 'ram'"></app-ram> -->
+
+  <div [hidden]="selectedPart !== 'processor'">
+    <app-processor></app-processor>
+  </div>
+  <!-- <div [hidden]="selectedPart !== 'motherboard'">
+    <app-motherboard></app-motherboard>
+  </div>
+  <div [hidden]="selectedPart !== 'ram'">
+    <app-ram></app-ram>
+  </div>
+  <div [hidden]="selectedPart !== 'ssd'">
+    <app-storage></app-storage> 
+  </div>
+  <div [hidden]="selectedPart !== 'gpu'">
+    <app-gpu></app-gpu>
+  </div>
+  <div [hidden]="selectedPart !== 'psu'">
+    <app-psu></app-psu>
+  </div>
+  <div [hidden]="selectedPart !== 'casing'">
+    <app-casing></app-casing>
+  </div> -->
 </div>

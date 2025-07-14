@@ -12,7 +12,7 @@ import { ProcessorComponent } from '../manage/processor/processor.component';
 export class ManageComponent {
   selectedPart: string = 'processor';
 
-  setPart(part: string) {
-    this.selectedPart = part;
+  setPart(tab: string): void {
+    this.selectedPart = tab;
   }
 }

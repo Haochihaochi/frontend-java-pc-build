@@ -6,11 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PartService {
-  private apiUrl = 'http://localhost:8080/api/processor'; // Spring Boot endpoint
+  private baseUrl = 'http://localhost:8080/api'; // Your Spring Boot API base
 
   constructor(private http: HttpClient) {}
 
-  getParts(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  /**
+   * Generic method to fetch parts by type
+   * @param type 'processor', 'ram', 'psu', etc.
+   */
+  getParts(type: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${type}`);
   }
 }
