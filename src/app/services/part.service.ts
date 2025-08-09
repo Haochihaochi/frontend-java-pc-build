@@ -17,4 +17,10 @@ export class PartService {
   getParts(type: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/${type}`);
   }
+
+  searchParts(type: string, name: string) {
+  return this.http.get<any[]>(`${this.baseUrl}/${type}/search`, {
+    params: { name }
+  });
+}
 }

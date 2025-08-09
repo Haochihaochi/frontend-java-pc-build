@@ -1,49 +1,65 @@
-<!-- Processor Table -->
-<div class="overflow-x-auto">
-  <table class="min-w-full table-fixed bg-gray-800 rounded-lg overflow-hidden border-separate border-spacing-x-2">
-    <thead>
-      <tr class="bg-gray-800 text-white">
-        <th class="w-[2%] px-4 py-2 text-left">No</th>
-        <th class="w-[73%] px-4 py-2 text-left">Part</th>
-        <th class="w-[15%] px-4 py-2 text-left">Price</th>
-        <th class="w-[2%] px-4 py-2 text-left">Quantity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="parts.length === 0">
-        <td colspan="4" class="px-4 py-6 text-center text-gray-400">
-          No processor parts available to display.
-        </td>
-      </tr>
-      <tr *ngFor="let part of parts; let i = index" class="border-t border-gray-700 text-white">
-        <td class="px-4 py-2">{{ i + 1 }}</td>
-        <td class="px-4 py-2 truncate">{{ part.description }}</td>
-        <td class="px-4 py-2">{{ part.price | currency:'RM' }}</td>
-        <td class="px-4 py-2">
-          <div class="flex items-center justify-left gap-4">
-            <!-- Minus Button -->
-            <button
-              (click)="removePart(part)"
-              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
-            >
-              -
-            </button>
+<!-- Search Bar -->
+<div class="flex items-center gap-2 mb-4">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Search by name..."
+    class="px-4 py-2 rounded border border-gray-500 text-black flex-1"
+    (keyup.enter)="onSearch()"
+  />
+  <button
+    (click)="onSearch()"
+    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+  >
+    Search
+  </button>
+</div>
 
-            <!-- Count Display -->
-            <span class="text-base font-semibold w-[30px] text-center">
-              {{ partCounts[part.id] || 0 }}
-            </span>
+<!-- No Data -->
+<div *ngIf="groupedParts.length === 0" class="text-gray-400 text-center py-6">
+  No processor parts available to display.
+</div>
 
-            <!-- Plus Button -->
-            <button
-              (click)="addPart(part)"
-              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
-            >
-              +
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<!-- Grouped Tables by Type -->
+<div *ngFor="let group of groupedParts" class="mb-8">
+  <h2 class="text-xl font-bold text-white mb-4">{{ group.type }}</h2>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full table-fixed bg-gray-800 rounded-lg overflow-hidden border-separate border-spacing-x-2">
+      <thead>
+        <tr class="bg-gray-800 text-white">
+          <th class="w-[2%] px-4 py-2 text-left">No</th>
+          <th class="w-[73%] px-4 py-2 text-left">Part</th>
+          <th class="w-[15%] px-4 py-2 text-left">Price</th>
+          <th class="w-[2%] px-4 py-2 text-left">Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let part of group.items; let i = index" class="border-t border-gray-700 text-white">
+          <td class="px-4 py-2">{{ i + 1 }}</td>
+          <td class="px-4 py-2 truncate">{{ part.description }}</td>
+          <td class="px-4 py-2">{{ part.price | currency:'RM' }}</td>
+          <td class="px-4 py-2">
+            <div class="flex items-center justify-left gap-4">
+              <button
+                (click)="removePart(part)"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
+              >
+                -
+              </button>
+              <span class="text-base font-semibold w-[30px] text-center">
+                {{ partCounts[part.id] || 0 }}
+              </span>
+              <button
+                (click)="addPart(part)"
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
+              >
+                +
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
