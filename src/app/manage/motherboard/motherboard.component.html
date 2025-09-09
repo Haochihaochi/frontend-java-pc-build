@@ -1,1 +1,61 @@
-<p>motherboard works!</p>
+<div class="bg-black min-h-screen text-white p-6 pb-24">
+  <!-- Search Bar -->
+  <div class="flex flex-col items-center gap-2 mb-4">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="SEARCH"
+      class="px-4 py-2 text-sm rounded-md bg-zinc-700 border border-gray-600 text-white placeholder-gray-400 w-96 focus:outline-none focus:border-gray-400"
+      (ngModelChange)="onSearch()"
+    />
+    <p class="text-gray-400 text-xs text-center">
+      * pls whatsapp us if your part not found in here
+    </p>
+  </div>
+
+  <!-- No Data -->
+  <div *ngIf="groupedParts.length === 0" class="text-gray-400 text-center py-6">
+    No motherboard parts available to display.
+  </div>
+
+  <!-- Grouped Tables by Type -->
+  <div *ngFor="let group of groupedParts" class="mb-12">
+    <h2 class="text-4xl font-bold mb-4">{{ group.type }}</h2>
+    <div class="text-sm overflow-x-auto rounded-xl">
+      <table class="w-full border-collapse rounded-xl overflow-hidden border border-zinc-700">
+        <thead>
+          <tr class="bg-zinc-700 text-white">
+            <th class="px-4 py-2 text-left w-[5%]">No</th>
+            <th class="px-4 py-2 text-left w-[70%]">Part</th>
+            <th class="px-4 py-2 text-left w-[15%]">Price</th>
+            <th class="px-4 py-2 text-left w-[10%]">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let part of group.items; let i = index"
+              [ngClass]="i % 2 === 0 ? 'bg-black' : 'bg-zinc-700'"
+              class="border-b border-zinc-700">
+            <td class="px-4 py-2">{{ i + 1 }}</td>
+            <td class="px-4 py-2 truncate">{{ part.description }}</td>
+            <td class="px-4 py-2">{{ part.price | currency:'RM' }}</td>
+            <td class="px-4 py-2">
+              <div class="flex items-center gap-4">
+                <button
+                  (click)="removePart(part)"
+                  class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
+                >-</button>
+                <span class="text-base font-semibold w-[30px] text-center">
+                  {{ partCounts[part.id] || 0 }}
+                </span>
+                <button
+                  (click)="addPart(part)"
+                  class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded min-w-[40px] text-center"
+                >+</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

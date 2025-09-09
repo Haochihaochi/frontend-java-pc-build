@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PartService } from '../../services/part.service';
 import { CartService } from '../../services/cart.service';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-processor',
@@ -11,11 +12,14 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './processor.component.html',
   styleUrls: ['./processor.component.css']
 })
-export class ProcessorComponent implements OnInit {
+export class ProcessorComponent implements OnInit, OnDestroy {
   parts: any[] = [];
   groupedParts: { type: string, items: any[] }[] = [];
   partCounts: { [partId: string]: number } = {};
   searchTerm: string = '';
+
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private partService: PartService,
@@ -24,6 +28,15 @@ export class ProcessorComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllParts();
+    this.searchSubject.pipe(
+      debounceTime(300),
+      takeUntil(this.destroy$)
+    ).subscribe(term => this.performSearch(term));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private groupParts(parts: any[]): void {
@@ -43,29 +56,34 @@ export class ProcessorComponent implements OnInit {
     this.partService.getParts('processor').subscribe(data => {
       this.parts = data;
       this.groupParts(this.parts);
-      this.partCounts = {};
-      for (const part of this.parts) {
-        this.partCounts[part.id] = 0;
-      }
+      this.resetPartCounts();
     });
   }
 
   onSearch(): void {
-    if (this.searchTerm.trim() === '') {
+    this.searchSubject.next(this.searchTerm);
+  }
+
+  private performSearch(term: string): void {
+    const trimmed = term.trim();
+
+    if (trimmed === '') {
       this.loadAllParts();
       return;
     }
 
-    this.partService.searchParts('processor', this.searchTerm).subscribe(data => {
+    this.partService.searchParts('processor', trimmed).subscribe(data => {
       this.parts = data;
       this.groupParts(this.parts);
-      this.partCounts = {};
-      for (const part of this.parts) {
-        this.partCounts[part.id] = 0;
-      }
-
-      this.searchTerm = '';
+      this.resetPartCounts();
     });
+  }
+
+  private resetPartCounts(): void {
+    this.partCounts = {};
+    for (const part of this.parts) {
+      this.partCounts[part.id] = 0;
+    }
   }
 
   addPart(part: any): void {

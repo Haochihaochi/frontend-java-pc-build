@@ -1,77 +1,81 @@
-<div class="p-6 bg-gray-900 min-h-screen text-white">
-  <h1 class="text-2xl font-bold mb-6 text-center">Manage Page</h1>
+<div class="bg-black min-h-screen text-white p-6">
 
-  <!-- Redesigned Buttons -->
-  <div class="flex flex-wrap justify-center gap-3 mb-8">
+  <!-- Selector Buttons -->
+  <div class="flex flex-wrap justify-center gap-4 mb-8">
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'processor' }"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'processor' }"
       (click)="setPart('processor')"
     >
-      🧠 CPU
+      PROCESSOR
     </button>
 
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'motherboard' }"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'motherboard' }"
       (click)="setPart('motherboard')"
     >
-      🧩 MOTHERBOARD
+      MOTHERBOARD
     </button>
 
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'ram' }"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'ram' }"
       (click)="setPart('ram')"
     >
-      💾 RAM
+      RAM
     </button>
 
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'ssd' }"
-      (click)="setPart('ssd')"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'storage' }"
+      (click)="setPart('storage')"
     >
-      📦 SSD
+      SSD
     </button>
 
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'gpu' }"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'gpu' }"
       (click)="setPart('gpu')"
     >
-      🎮 GPU
+      GPU
     </button>
 
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'psu' }"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'psu' }"
       (click)="setPart('psu')"
     >
-      ⚡ PSU
+      PSU
     </button>
 
     <button
-      class="btn btn-outline text-white border-gray-600 hover:bg-gray-700 hover:border-white"
-      [ngClass]="{ 'btn-active bg-white text-gray-900 font-bold': selectedPart === 'casing' }"
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'casing' }"
       (click)="setPart('casing')"
     >
-      🖥️ CASING
+      CASING
+    </button>
+
+    <button
+      class="px-5 py-3 rounded-lg text-white font-semibold bg-zinc-700 hover:bg-zinc-600 transition"
+      [ngClass]="{ 'bg-zinc-500': selectedPart === 'cooler' }"
+      (click)="setPart('cooler')"
+    >
+      COOLER
     </button>
   </div>
 
-
+  <!-- Component Display -->
   <div [hidden]="selectedPart !== 'processor'">
     <app-processor></app-processor>
   </div>
-  <!-- <div [hidden]="selectedPart !== 'motherboard'">
-    <app-motherboard></app-motherboard>
+  <div [hidden]="selectedPart !== 'casing'">
+    <app-casing></app-casing>
   </div>
-  <div [hidden]="selectedPart !== 'ram'">
-    <app-ram></app-ram>
-  </div>
-  <div [hidden]="selectedPart !== 'ssd'">
-    <app-storage></app-storage> 
+  <div [hidden]="selectedPart !== 'cooler'">
+    <app-cooler></app-cooler>
   </div>
   <div [hidden]="selectedPart !== 'gpu'">
     <app-gpu></app-gpu>
@@ -79,7 +83,42 @@
   <div [hidden]="selectedPart !== 'psu'">
     <app-psu></app-psu>
   </div>
-  <div [hidden]="selectedPart !== 'casing'">
-    <app-casing></app-casing>
-  </div> -->
+  <div [hidden]="selectedPart !== 'storage'">
+    <app-storage></app-storage>
+  </div>
+  <div [hidden]="selectedPart !== 'motherboard'">
+    <app-motherboard></app-motherboard>
+  </div>
+  <div [hidden]="selectedPart !== 'ram'">
+    <app-ram></app-ram>
+  </div>
+
+  <!-- Floating Checkout Button (opens cart overlay) -->
+  <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-full flex justify-center px-6">
+    <button
+      (click)="toggleCart()"
+      class="w-full max-w-lg py-4 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white shadow-lg transition text-sm font-semibold">
+      CHECKOUT
+    </button>
+  </div>
+
+  <!-- Cart Overlay Modal -->
+  <div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center">
+    <div class="bg-gray-900 p-6 rounded-lg w-[90%] max-w-xl relative">
+      <h2 class="text-2xl mb-4 font-bold text-white">Your Cart</h2>
+      <button class="absolute top-4 right-4 text-white hover:text-gray-300" (click)="copyToClipboard()">📋</button>
+
+      <ul class="space-y-2 max-h-[300px] overflow-y-auto text-white">
+        <li *ngFor="let item of (cart$ | async)">
+          {{ item.description }} x{{ item.quantity }} — RM{{ item.price * item.quantity }}
+        </li>
+      </ul>
+
+      <div class="mt-4 flex justify-end gap-2">
+        <button (click)="toggleCart()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
