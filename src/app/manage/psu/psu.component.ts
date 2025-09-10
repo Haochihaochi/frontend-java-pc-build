@@ -28,10 +28,21 @@ export class PsuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadAllParts();
-    this.searchSubject.pipe(
-      debounceTime(300),
-      takeUntil(this.destroy$)
-    ).subscribe(term => this.performSearch(term));
+
+    // 🔥 Sync partCounts with cartItems
+    this.cartService.cartItems$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(cartItems => {
+        const counts: { [id: string]: number } = {};
+        for (const item of cartItems) {
+          counts[item.id] = item.quantity;
+        }
+        this.partCounts = counts;
+      });
+
+    this.searchSubject
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe(term => this.performSearch(term));
   }
 
   ngOnDestroy(): void {
@@ -56,7 +67,6 @@ export class PsuComponent implements OnInit, OnDestroy {
     this.partService.getParts('psu').subscribe(data => {
       this.parts = data;
       this.groupParts(this.parts);
-      this.resetPartCounts();
     });
   }
 
@@ -75,36 +85,26 @@ export class PsuComponent implements OnInit, OnDestroy {
     this.partService.searchParts('psu', trimmed).subscribe(data => {
       this.parts = data;
       this.groupParts(this.parts);
-      this.resetPartCounts();
     });
   }
 
-  private resetPartCounts(): void {
-    this.partCounts = {};
-    for (const part of this.parts) {
-      this.partCounts[part.id] = 0;
-    }
-  }
-
   addPart(part: any): void {
-    this.partCounts[part.id] = (this.partCounts[part.id] || 0) + 1;
     this.cartService.addItem({
       id: part.id,
       description: part.description,
       price: part.price,
-      quantity: 1
+      quantity: 1,
+      group: "PSU " + part.type
     });
   }
 
   removePart(part: any): void {
-    if ((this.partCounts[part.id] || 0) > 0) {
-      this.partCounts[part.id]--;
-      this.cartService.removeItem({
-        id: part.id,
-        description: part.description,
-        price: part.price,
-        quantity: 1
-      });
-    }
+    this.cartService.decreaseQuantity({
+      id: part.id,
+      description: part.description,
+      price: part.price,
+      quantity: 1,
+      group: "PSU " + part.type
+    });
   }
 }

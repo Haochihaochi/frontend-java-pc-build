@@ -14,9 +14,19 @@ import { CartService, CartItem } from '../services/cart.service';
 @Component({
   selector: 'app-manage',
   standalone: true,
-  imports: [CommonModule, ProcessorComponent, CoolerComponent, RamComponent, PsuComponent, GpuComponent, StorageComponent, MotherboardComponent, CasingComponent],
+  imports: [
+    CommonModule,
+    ProcessorComponent,
+    CoolerComponent,
+    RamComponent,
+    PsuComponent,
+    GpuComponent,
+    StorageComponent,
+    MotherboardComponent,
+    CasingComponent,
+  ],
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.css']
+  styleUrls: ['./manage.component.css'],
 })
 export class ManageComponent {
   selectedPart: string = 'processor';
@@ -24,8 +34,19 @@ export class ManageComponent {
   isOpen = false;
   cart$: Observable<CartItem[]>;
 
+  subtotal = 0;
+  totalItems = 0;
+  discount = 0; // adjustable
+  total = 0;
+
   constructor(private cartService: CartService) {
     this.cart$ = this.cartService.cartItems$;
+
+    this.cart$.subscribe(items => {
+      this.subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      this.totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+      this.total = this.subtotal - this.discount;
+    });
   }
 
   setPart(tab: string): void {
@@ -41,5 +62,17 @@ export class ManageComponent {
     navigator.clipboard.writeText(text).then(() => {
       alert('Cart copied to clipboard!');
     });
+  }
+
+  increase(item: CartItem) {
+    this.cartService.increaseQuantity(item);
+  }
+
+  decrease(item: CartItem) {
+    this.cartService.decreaseQuantity(item);
+  }
+
+  delete(item: CartItem) {
+    this.cartService.deleteItem(item.id);
   }
 }

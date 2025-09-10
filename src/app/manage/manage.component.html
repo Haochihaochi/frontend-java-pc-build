@@ -94,31 +94,88 @@
   </div>
 
   <!-- Floating Checkout Button (opens cart overlay) -->
-  <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-full flex justify-center px-6">
-    <button
-      (click)="toggleCart()"
-      class="w-full max-w-lg py-4 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white shadow-lg transition text-sm font-semibold">
-      CHECKOUT
-    </button>
+  <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex justify-center px-6 w-full">
+    <div class="relative w-1/3">
+      <button
+        (click)="toggleCart()"
+        class="w-full py-4 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white shadow-lg transition text-sm font-semibold">
+        CHECKOUT
+      </button>
+
+      <!-- 🔥 Cart badge -->
+      <span *ngIf="totalItems > 0"
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
+        {{ totalItems }}
+      </span>
+    </div>
   </div>
 
-  <!-- Cart Overlay Modal -->
-  <div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black bg-opacity-70 flex justify-center items-center">
-    <div class="bg-gray-900 p-6 rounded-lg w-[90%] max-w-xl relative">
-      <h2 class="text-2xl mb-4 font-bold text-white">Your Cart</h2>
-      <button class="absolute top-4 right-4 text-white hover:text-gray-300" (click)="copyToClipboard()">📋</button>
 
-      <ul class="space-y-2 max-h-[300px] overflow-y-auto text-white">
-        <li *ngFor="let item of (cart$ | async)">
-          {{ item.description }} x{{ item.quantity }} — RM{{ item.price * item.quantity }}
+  <!-- Cart Overlay Modal -->
+  <div *ngIf="isOpen" class="fixed inset-0 z-50 bg-black bg-opacity-80 flex justify-center items-center">
+    <div class="bg-zinc-900 text-white p-6 rounded-2xl w-[95%] max-w-md shadow-xl flex flex-col max-h-[90vh]">
+      <!-- Header -->
+      <div class="flex justify-between items-center border-b border-zinc-700 pb-2 mb-4">
+        <h2 class="text-lg font-bold tracking-wide">CART</h2>
+        <button (click)="copyToClipboard()" class="text-sm hover:text-gray-300">Copy</button>
+      </div>
+
+      <!-- Items (scrollable area) -->
+      <ul class="flex-1 overflow-y-auto space-y-3 pr-2">
+        <li *ngFor="let item of (cart$ | async)" class="bg-zinc-800 rounded-xl p-4 flex flex-col gap-2">
+          <!-- Top row: Group + delete -->
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">{{ item.group }}</span>
+            <button (click)="delete(item)" class="text-gray-400 hover:text-red-500 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="currentColor" 
+                class="w-5 h-5">
+              <path fill-rule="evenodd" 
+                    d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" 
+                    clip-rule="evenodd"/>
+            </svg>
+          </button>
+          </div>
+
+          <!-- Description -->
+          <div class="text-sm">{{ item.description }}</div>
+
+          <!-- Price -->
+          <div class="text-lg text-gray-400">RM {{ item.price }}</div>
+
+          <!-- Quantity Controls -->
+          <div class="flex items-center gap-4">
+            <button (click)="decrease(item)" class="px-3 py-1 bg-red-600 rounded hover:bg-red-700">-</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increase(item)" class="px-3 py-1 bg-green-600 rounded hover:bg-green-700">+</button>
+          </div>
         </li>
       </ul>
 
-      <div class="mt-4 flex justify-end gap-2">
-        <button (click)="toggleCart()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
-          Close
-        </button>
+      <!-- Footer -->
+      <div class="bg-zinc-800 rounded-xl p-4 mt-4 space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span>Subtotal ({{ totalItems }} items)</span>
+          <span>RM {{ subtotal }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Discount</span>
+          <span class="text-red-400">- RM {{ discount }}</span>
+        </div>
+        <hr class="border-zinc-700" />
+        <div class="flex justify-between font-semibold text-lg">
+          <span>Total</span>
+          <span>RM {{ total }}</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-2 mt-4">
+        <button (click)="toggleCart()" class="flex-1 py-3 rounded-lg bg-zinc-700 hover:bg-zinc-600">Cancel</button>
+        <button class="flex-1 py-3 rounded-lg bg-green-600 hover:bg-green-500">Order</button>
       </div>
     </div>
   </div>
+
 </div>
