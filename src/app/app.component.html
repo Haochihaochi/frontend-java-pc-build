@@ -1,22 +1,90 @@
-<div class="min-h-screen bg-black text-white">
-  <header class="flex items-center justify-between h-16 px-6 bg-black border-b border-black-700">
-    <div class="space-x-4">
-      <a
-        routerLink="/"
-        class="text-lg font-semibold hover:underline hover:text-gray-300 transition"
+<div class="min-h-screen bg-black text-white flex flex-col">
+
+  <!-- Header -->
+  <header class="border-b border-zinc-800">
+    <div class="text-2xl mx-auto relative px-6 h-16 flex items-center justify-center">
+
+      <!-- Desktop Nav (top-left) -->
+      <nav class="absolute left-6 top-1/2 -translate-y-1/2 hidden md:flex gap-10">
+        <a routerLink="/" class="hover:text-gray-300 hover:underline transition">Home</a>
+        <a routerLink="/manage" class="hover:text-gray-300 hover:underline transition">Build</a>
+      </nav>
+
+      <!-- Logo (center) -->
+      <div class="flex items-center gap-2">
+        <!-- <span class="w-6 h-6 bg-yellow-500 rounded"></span> -->
+        <a routerLink="/" class="font-bold text-2xl transition">ALPHA BUILD</a>
+      </div>
+
+      <!-- Mobile Menu Button (right) -->
+      <button
+        (click)="isMenuOpen = !isMenuOpen"
+        class="absolute left-6 top-1/2 -translate-y-1/2 md:hidden p-2 rounded hover:bg-zinc-800 focus:outline-none"
       >
-        Home
-      </a>
-      <a
-        routerLink="/manage"
-        class="text-lg font-semibold hover:underline hover:text-gray-300 transition"
-      >
-        Build Your PC
-      </a>
+        <!-- Icon -->
+        <svg *ngIf="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg *ngIf="isMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div *ngIf="isMenuOpen" class="text-xl md:hidden bg-zinc-900 border-t border-zinc-800">
+      <nav class="flex flex-col p-4 space-y-7">
+        <a routerLink="/" (click)="isMenuOpen=false" class="text-center hover:text-gray-300 hover:underline">Home</a>
+        <a routerLink="/manage" (click)="isMenuOpen=false" class="text-center hover:text-gray-300 hover:underline">Build</a>
+      </nav>
     </div>
   </header>
 
-  <main class="p-6">
+
+  <!-- Main -->
+  <main class="flex-1 p-6">
     <router-outlet></router-outlet>
   </main>
+
+  <!-- Footer -->
+  <footer class="bg-black text-gray-300 border-t border-zinc-800">
+    <div class="max-w-7xl mx-auto py-10 grid grid-cols-1 md:grid-cols-3 gap-20 text-xl">
+      
+      <!-- Column 1 -->
+      <div class="lg:pl-[50px] py-2 lg:text-left text-center py-2">
+        <h3 class="text-4xl font-bold mb-4 text-white">Company</h3>
+        <ul class="space-y-3">
+          <li>Build PC</li>
+        </ul>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="lg:pl-[50px] py-2 lg:text-left text-center py-2 ">
+        <h3 class="text-4xl font-bold mb-4 text-white">Useful Links</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="hover:text-white">About Us</a></li>
+          <li><a routerLink="/manage" class="hover:text-white">Build</a></li>
+          <li><a href="#" class="hover:text-white">Covered Area</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="lg:pl-[50px] py-2 lg:text-left text-center">
+        <h3 class="text-4xl font-bold mb-4 text-white">Contact Us</h3>
+        <ul class="space-y-3">
+          <li>0128797126</li>
+          <li><a href="https://wa.me/60128797126" class="hover:text-white">Whatsapp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="text-center text-xs text-gray-500 py-6 border-t border-zinc-800">
+      © 2025 ALPHA BUILD. All rights reserved. Made by ALPHA BUILD.
+    </div>
+  </footer>
 </div>
